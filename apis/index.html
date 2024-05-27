@@ -2,38 +2,58 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub User Info</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GitHub User Info</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
 </head>
 
 <body>
-    <main class="container">
-        <div>
-            <label for="username">Enter GitHub username:</label>
-            <input type="text" id="username" name="username">
-            <button>Get Info</button>
-        </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Full Name</th>
-                    <th>Bio</th>
-                    <th>Profile Picture</th>
-                    <th>Home URL</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td id="fullName"></td>
-                    <td id="bio"></td>
-                    <td><img id="profilePicture" src="" alt=""></td>
-                    <td id="homeUrl"></td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+	<main class="container">
+		<div>
+			<label for="username">Enter GitHub username:</label>
+			<input type="text" id="username" name="username">
+			<button>Get Info</button>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Full Name</th>
+					<th>Bio</th>
+					<th>Profile Picture</th>
+					<th>Home URL</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td id="fullName"></td>
+					<td id="bio"></td>
+					<td><img id="profilePicture" src="" alt=""></td>
+					<td><a id="homeUrl" href=""></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</main>
+	<script>
+
+		let button = document.querySelector("button");
+		button.addEventListener("click", async function () {
+			let username = document.getElementById("username").value;
+
+			const response = await fetch(`https://api.github.com/users/${username}`);
+			const data = await response.json();
+			console.log(data);
+			document.getElementById("fullName").textContent = data.name;
+			document.getElementById("bio").textContent = data.bio;
+			document.getElementById("profilePicture").src = data.avatar_url;
+			document.getElementById("homeUrl").textContent = data.html_url;
+			document.getElementById("homeUrl").href = data.html_url;
+		});
+
+
+
+
+	</script>
 </body>
 
 </html>
